@@ -1,0 +1,12 @@
+{
+  "client_id": "...",
+  "client_secret": "...",
+  "redirect_uri": "http://localhost:3000/callback",
+  "scope": [
+    "heartrate",
+    "sleep",
+    "oxygen_saturation",
+    "electrocardiogram"
+  ],
+  "token_file": "./token.json"
+}
