@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Fitbit Dashboard</title>
+
+<style>
+body {
+  font-family: monospace;
+  background: #0e0e0e;
+  color: #ddd;
+  margin: 20px;
+}
+
+select, input, button {
+  background: #111;
+  color: #ddd;
+  border: 1px solid #444;
+  padding: 6px 10px;
+  margin-right: 6px;
+}
+
+button:hover {
+  background: #222;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+th {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+tbody tr:nth-child(even) {
+  background: #151515;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Fitbit Web API</h2>
+
+<select id="api" onchange="toggleIntraday()">
+  <option value="heartrate">Heart Rate</option>
+  <option value="spo2">SpO2</option>
+  <option value="sleep">Sleep</option>
+  <option value="ecg">ECG Logs</option>
+</select>
+
+<label>Date:</label>
+<input type="date" id="date">
+
+<span id="intradayBox">
+  <label>Intraday:</label>
+  <select id="detail">
+    <option value="1sec">1 sec</option>
+    <option value="1min">1 min</option>
+  </select>
+</span>
+
+<button onclick="loadData()">Fetch</button>
+<button onclick="downloadJson()">Download JSON</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<script>
+var lastData = null;
+
+function toggleIntraday() {
+  var api = document.getElementById('api').value;
+  document.getElementById('intradayBox').style.display =
+    api === 'heartrate' ? 'inline' : 'none';
+}
+
+toggleIntraday();
+
+function loadData() {
+  var api = document.getElementById('api').value;
+  var date = document.getElementById('date').value;
+  var detail = document.getElementById('detail').value;
+
+  var url = '/api/' + api + '?date=' + date;
+  if (api === 'heartrate') {
+    url += '&detail=' + detail;
+  }
+
+  fetch(url)
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      lastData = data;
+      renderTable(data);
+    })
+    .catch(function(err) {
+      alert('Error fetching data');
+      console.error(err);
+    });
+}
+
+
+function renderTable(data) {
+  var body = document.getElementById('tableBody');
+  body.innerHTML = '';
+
+  var rows = [];
+
+  // HEART RATE INTRADAY
+  if (
+    data &&
+    data['activities-heart-intraday'] &&
+    data['activities-heart-intraday'].dataset &&
+    data['activities-heart-intraday'].dataset.length
+  ) {
+    rows = data['activities-heart-intraday'].dataset.map(
+      function(r, i) {
+        return {
+          i: i,
+          timestamp: r.time,
+          value: r.value
+        };
+      }
+    );
+  }
+
+  //OTHER
+  if (!rows.length && data && typeof data === 'object') {
+    rows = Object.keys(data).map(function(k, i) {
+      return {
+        i: i,
+        timestamp: k,
+        value: JSON.stringify(data[k])
+      };
+    });
+  }
+
+  rows.forEach(function(r) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>' + r.i + '</td>' +
+      '<td>' + r.timestamp + '</td>' +
+      '<td>' + r.value + '</td>';
+    body.appendChild(tr);
+  });
+}
+
+function downloadJson() {
+  if (!lastData) return;
+
+  var blob = new Blob(
+    [JSON.stringify(lastData, null, 2)],
+    { type: 'application/json' }
+  );
+
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'fitbit.json';
+  a.click();
+}
+</script>
+
+</body>
+</html>
