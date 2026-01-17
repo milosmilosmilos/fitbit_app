@@ -1,11 +1,11 @@
 # Fitbit Web API – Aplikacija za istraživačke svrhe
 
 ## Opis
-Ovaj repozitorijum sadrži demonstracionu veb aplikaciju razvijenu u okviru akademskog seminarskog rada, sa ciljem istraživanja pristupa i obrade podataka sa Fitbit nosivih uređaja putem zvaničnog Fitbit Web API-ja. Projekat je namenjen isključivo edukativnim i istraživačkim svrhama.
+Ovaj repozitorijum sadrži pokaznu veb aplikaciju razvijenu u okviru akademskog seminarskog rada, sa ciljem istraživanja pristupa i obrade podataka sa Fitbit nosivih uređaja (testirano za Fitbit Charge 6) putem zvaničnog Fitbit Web API servisa. Projekat je namenjen isključivo u edukativne i istraživačke svrhe.
 
 ## Ciljevi
 - demonstracija OAuth 2.0 autorizacije korisnika  
-- komunikacija sa Fitbit Web API-jem  
+- komunikacija sa Fitbit Web API servisom  
 - preuzimanje osnovnih i detaljnih podataka o aktivnosti korisnika
 
 ## Tehnologije
@@ -17,11 +17,11 @@ Ovaj repozitorijum sadrži demonstracionu veb aplikaciju razvijenu u okviru akad
 
 ## Funkcionalnosti
 - OAuth 2.0 prijava korisnika  
-- preuzimanje podataka (srčani ritam, faze sna, SpO2, ECG – u zavisnosti od dostupnosti)  
+- preuzimanje podataka (podaci o srčanom ritmu, fazama sna, zasićenosti krvi kiseonikom - SpO2, elektrokardiogramu (ECG) – u zavisnosti od dostupnosti)  
 - osnovni prikaz i obrada podataka  
 
 ## Bezbednost i privatnost
-Aplikacija koristi HTTPS komunikaciju, ne čuva trajno poverljive podatke i poštuje osnovne principe GDPR-a i Zakona o zaštiti podataka o ličnosti Republike Srbije.
+Aplikacija koristi HTTPS komunikaciju i ne čuva trajno poverljive podatke.
 
 ## Pokretanje
 ```bash
