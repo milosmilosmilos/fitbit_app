@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as follows."
+title: "Fitbit Web API Communication Layer (Local Server)"
+type: software
+
+authors:
+  - family-names: "Milošević"
+    given-names: "Miloš"
+
+version: "1.0.0"
+
+date-released: 2026-07-01
+
+doi: "10.5281/zenodo.21109083"
+
+repository-code: "https://github.com/milosmilosmilos/fitbit_app"
+
+license: "GPL-3.0"
+
+preferred-citation:
+  type: software
+  title: "Fitbit Web API Communication Layer (Local Server)"
+  authors:
+    - family-names: "Milošević"
+      given-names: "Miloš"
+  version: "1.0.0"
+  doi: "10.5281/zenodo.21109083"
+  year: 2026
+  publisher: "Zenodo"
